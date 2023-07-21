@@ -1,0 +1,20 @@
+@import "src/app/_variables.scss";
+
+.search-input {
+  width: 25%;
+  height: 25px;
+  outline: $primary;
+}
+
+.search-button {
+  height: 31px;
+  width: 6.25%;
+  background-color: $primary;
+  border: 1px solid black;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $seconday;
+  }
+}

@@ -13,4 +13,6 @@ describe('ApiService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should fetch right forecast', () => {});
 });

@@ -1,0 +1,9 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <input
+    type="text"
+    class="search-input"
+    (keyup)="handleKeyUp($event)"
+    formControlName="search"
+  />
+  <button class="search-button" type="submit">Search</button>
+</form>
