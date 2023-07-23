@@ -13,6 +13,7 @@ import { TimePipe } from './pipes/time.pipe';
 import { SpeedPipe } from './pipes/speed.pipe';
 import { DistancePipe } from './pipes/distance.pipe';
 import { UviPipe } from './pipes/uvi.pipe';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UviPipe } from './pipes/uvi.pipe';
     SpeedPipe,
     DistancePipe,
     UviPipe,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,

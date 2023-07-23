@@ -10,11 +10,17 @@
     <div class="container sun">
       <div class="sunrise">
         <img src="assets/icons/sunrise.svg" class="icon" alt="Sunrise" />
-        <p>Sunrise: {{ forecast.current.sunrise | time }}</p>
+        <p>
+          Sunrise:
+          {{ forecast.current.sunrise | time : forecast.timezone_offset }}
+        </p>
       </div>
       <div class="sunset">
         <img src="assets/icons/sunset.svg" class="icon" alt="Sunset" />
-        <p>Sunset: {{ forecast.current.sunset | time }}</p>
+        <p>
+          Sunset:
+          {{ forecast.current.sunset | time : forecast.timezone_offset }}
+        </p>
       </div>
     </div>
     <div class="container humidity">
@@ -34,4 +40,8 @@
       <p>Wind Speed: {{ forecast.current.wind_speed | speed }}</p>
     </div>
   </div>
+</ng-container>
+
+<ng-container *ngIf="!forecast">
+  <p>Please insert a valid location!</p>
 </ng-container>

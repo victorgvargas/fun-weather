@@ -30,3 +30,9 @@
     width: 25px;
   }
 }
+
+@media only screen and (max-width: 400px) {
+  .grid {
+    padding: 0 12.5%;
+  }
+}

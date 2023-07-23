@@ -4,11 +4,14 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'time',
 })
 export class TimePipe implements PipeTransform {
-  transform(value: number): string {
-    const date = new Date(value * 1000);
+  transform(value: number, timezoneOffsetSeconds: number): string {
+    const date = new Date((value + timezoneOffsetSeconds) * 1000); // Convert to milliseconds
     const hours = date.getHours();
-    const minutes = '' + date.getMinutes();
+    const minutes = date.getMinutes();
+    const amPm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
-    return hours + ':' + minutes.substring(-2);
+    return `${formattedHours}:${formattedMinutes} ${amPm}`;
   }
 }

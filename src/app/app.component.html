@@ -1,3 +1,11 @@
 <app-search-input (searchQuery)="onSearch($event)"></app-search-input>
 
-<app-weather-grid [city]="currentCity" [forecast]="forecast"></app-weather-grid>
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+<p *ngIf="!geolocationEnabled">{{ geolocationErrorMsg }}</p>
+
+<app-weather-grid
+  *ngIf="!loading"
+  [city]="currentCity"
+  [forecast]="forecast"
+></app-weather-grid>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './services/api.service';
-import { switchMap, take, tap } from 'rxjs';
+import { switchMap, take, tap, Observable, of, finalize } from 'rxjs';
 import { Forecast } from './models/forecast.model';
 import { Coords } from './models/coords.model';
 
@@ -11,21 +11,34 @@ import { Coords } from './models/coords.model';
 })
 export class AppComponent implements OnInit {
   forecast: Forecast | null = null;
-  currentCity = '';
-  lat = 51.477928;
-  lon = -0.001545;
+  currentCity = 'Lisbon';
+  geolocationEnabled = false;
+  geolocationErrorMsg =
+    "Please enable geolocation in order to get your location's current weather!";
+  loading = true;
+  lat = 38.736946;
+  lon = -9.142685;
 
-  constructor(private _apiService: ApiService) {
+  constructor(private _apiService: ApiService) {}
+
+  ngOnInit(): void {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lon = position.coords.longitude;
+
+        this._apiService
+          .getForecast(this.lat, this.lon)
+          .pipe(
+            tap(() => (this.loading = true)),
+            tap(() => (this.geolocationEnabled = true)),
+            tap((forecast) => (this.forecast = forecast)),
+            take(1),
+            finalize(() => (this.loading = false))
+          )
+          .subscribe();
       });
     }
-  }
-
-  ngOnInit(): void {
-    this._apiService.getForecast(this.lat, this.lon).pipe(take(1)).subscribe();
   }
 
   onSearch(query: string) {
@@ -34,10 +47,12 @@ export class AppComponent implements OnInit {
     this._apiService
       .getCoordsByCityName(query)
       .pipe(
-        switchMap((coords: Coords[]) =>
-          this._apiService.getForecast(coords[0].lat, coords[0].lon)
-        ),
-        tap((weather) => (this.forecast = weather)),
+        switchMap((coords: Coords[]): Observable<Forecast | null> => {
+          if (coords.length > 0)
+            return this._apiService.getForecast(coords[0].lat, coords[0].lon);
+          else return of(null);
+        }),
+        tap((forecast: Forecast | null) => (this.forecast = forecast || null)),
         take(1)
       )
       .subscribe();
