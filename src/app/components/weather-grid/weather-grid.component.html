@@ -1,0 +1,37 @@
+<ng-container *ngIf="forecast">
+  <app-current-temp-card
+    [cityName]="city"
+    [temperature]="forecast.current.temp"
+    [feelsLike]="forecast.current.feels_like"
+    [weather]="forecast.current.weather[0].main"
+  ></app-current-temp-card>
+
+  <div class="grid">
+    <div class="container sun">
+      <div class="sunrise">
+        <img src="assets/icons/sunrise.svg" class="icon" alt="Sunrise" />
+        <p>Sunrise: {{ forecast.current.sunrise | time }}</p>
+      </div>
+      <div class="sunset">
+        <img src="assets/icons/sunset.svg" class="icon" alt="Sunset" />
+        <p>Sunset: {{ forecast.current.sunset | time }}</p>
+      </div>
+    </div>
+    <div class="container humidity">
+      <img src="assets/icons/humidity.svg" class="icon" alt="Humidity" />
+      <p>Humidty: {{ forecast.current.humidity }}%</p>
+    </div>
+    <div class="container uvi">
+      <img src="assets/icons/uvi.svg" class="icon" alt="UVI" />
+      <p>UVI: {{ forecast.current.uvi | uvi }}</p>
+    </div>
+    <div class="container visibility">
+      <img src="assets/icons/visibility.svg" class="icon" alt="Visibility" />
+      <p>Visibility: {{ forecast.current.visibility | distance }}</p>
+    </div>
+    <div class="container wind-speed">
+      <img src="assets/icons/wind-speed.svg" class="icon" alt="Wind Speed" />
+      <p>Wind Speed: {{ forecast.current.wind_speed | speed }}</p>
+    </div>
+  </div>
+</ng-container>

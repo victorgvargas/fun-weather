@@ -10,7 +10,8 @@ import { Coords } from './models/coords.model';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  weather?: Forecast;
+  forecast: Forecast | null = null;
+  currentCity = '';
   lat = 51.477928;
   lon = -0.001545;
 
@@ -28,13 +29,15 @@ export class AppComponent implements OnInit {
   }
 
   onSearch(query: string) {
+    this.currentCity = query;
+
     this._apiService
       .getCoordsByCityName(query)
       .pipe(
         switchMap((coords: Coords[]) =>
           this._apiService.getForecast(coords[0].lat, coords[0].lon)
         ),
-        tap((weather) => (this.weather = weather)),
+        tap((weather) => (this.forecast = weather)),
         take(1)
       )
       .subscribe();
